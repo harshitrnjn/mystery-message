@@ -9,6 +9,7 @@ import { IMessage } from "@/model/message.model";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import MessageCard from "@/components/MessageCard";
+import { hostname } from "os";
 
 const page = () => {
   const router = useRouter();
@@ -17,11 +18,13 @@ const page = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [acceptStatus, setAcceptStatus] = useState<boolean>(true);
   const [username, setUsername] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [fullName, setFullName] = useState("")
+  const [fullName, setFullName] = useState("");
+  const [profileURL, setProfileUrl] = useState({
+    protocol: "",
+    hostname: "",
+    user: ""
+  })
 
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
-  const profileUrl = `${baseUrl}/u/${username}`;
 
   const profile = async () => {
     try {
@@ -46,6 +49,10 @@ const page = () => {
   useEffect(() => {
     profile();
     refreshButton();
+    
+    setProfileUrl({...profileURL, protocol: window.location.protocol })
+    setProfileUrl({...profileURL, hostname: window.location.host })
+
   }, []);
 
   const onSubmitLogOut = async () => {
@@ -77,10 +84,14 @@ const page = () => {
   };
 
   const refreshButton = async () => {
+
+
+  setProfileUrl({...profileURL, user: username}) 
+
     try {
       const response = await axios.get("/api/get-messages");
 
-      console.log("Messages fetched successfully: ", response);
+      // console.log("Messages fetched successfully: ", response);
 
       setMessages(response.data.user.messages);
 
@@ -105,14 +116,14 @@ const page = () => {
   };
 
   useEffect(() => {
-    console.log("User  accepting message: ", acceptStatus);
+    // console.log("User  accepting message: ", acceptStatus);
     const update = async () => {
       try {
         const response = await axios.post("/api/change-accept-status", {
           status: acceptStatus,
         });
 
-        console.log("MESSAGE STATUS UPDATED: ", response);
+        // console.log("MESSAGE STATUS UPDATED: ", response);
 
         toast({
           title: "Accept Message Status updated successfully",
@@ -135,6 +146,9 @@ const page = () => {
 
   const deleteMessage = async () => {};
 
+
+  const profileUrl = `${profileURL.hostname}/u/${username}`
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
 
@@ -148,6 +162,8 @@ const page = () => {
     setMessages(messages.filter((message) => message._id !== messageId));
   };
 
+
+
   return (
     <>
       <nav className="p-4 md:p-6 shadow-md bg-gray-900 text-white">
@@ -156,7 +172,7 @@ const page = () => {
             True Feedback
           </a>
           <>
-            <span className="mr-4 text-2xl">Welcome, {username}</span>
+            <span className="mr-4 text-2xl">Welcome, {fullName}</span>
             <Button
               onClick={onSubmitLogOut}
               className="w-full md:w-auto bg-slate-100 text-black"
@@ -169,7 +185,9 @@ const page = () => {
       </nav>
 
       <div className="mb-4 px-14 mt-10 flex flex-col items-center justify-center gap-y-3">
-        <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link To Recieve Anonymous Messages</h2>{" "}
+        <h2 className="text-lg font-semibold mb-2">
+          Copy Your Unique Link To Recieve Anonymous Messages
+        </h2>{" "}
         <div className="flex items-center ">
           <input
             type="text"
@@ -187,24 +205,24 @@ const page = () => {
         </span>
       </div>
       <Separator />
-     <div className="w-full  px-14">
-     <Button className="mt-4" variant="outline" onClick={refreshButton}>
-        GET MESSAGES
-      </Button>
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {messages.length > 0 ? (
-          messages.map((message, index) => (
-            <MessageCard
-              key={message._id}
-              message={message}
-              onMessageDelete={handleDeleteMessage}
-            />
-          ))
-        ) : (
-          <p>No messages to display.</p>
-        )}
+      <div className="w-full  px-14">
+        <Button className="mt-4" variant="outline" onClick={refreshButton}>
+          GET MESSAGES
+        </Button>
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {messages.length > 0 ? (
+            messages.map((message, index) => (
+              <MessageCard
+                key={message._id}
+                message={message}
+                onMessageDelete={handleDeleteMessage}
+              />
+            ))
+          ) : (
+            <p>No messages to display.</p>
+          )}
+        </div>
       </div>
-     </div>
     </>
   );
 };
