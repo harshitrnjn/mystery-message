@@ -1,7 +1,6 @@
 import dbConnect from "@/db/db";
 import { User } from "@/model/user.model";
 import { sendEmail } from "@/utils/mailer";
-import { sendVerificationEamil } from "@/utils/sendVerificationEmail";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
@@ -81,19 +80,19 @@ export async function POST(request: Request) {
       }
     }
 
-    const emailResponse = await sendEmail({email, emailType: "VERIFY", username, otp: verifyCode });
+    // const emailResponse = await sendEmail({email, emailType: "VERIFY", username, otp: verifyCode });
 
     // console.log(emailResponse);
 
-    if (!emailResponse) {
-      return Response.json(
-        {
-          success: false,
-          message: "Error while sending Verification Email",
-        },
-        { status: 400 }
-      );
-    }
+    // if (!emailResponse) {
+    //   return Response.json(
+    //     {
+    //       success: false,
+    //       message: "Error while sending Verification Email",
+    //     },
+    //     { status: 400 }
+    //   );
+    // }
 
     return Response.json(
       {
