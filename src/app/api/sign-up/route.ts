@@ -99,6 +99,7 @@ export async function POST(request: Request) {
       {
         success: true,
         message: "User Registered successfully, now Verify your email",
+        otp: verifyCode 
       },
       { status: 200 }
     );

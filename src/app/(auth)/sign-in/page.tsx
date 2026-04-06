@@ -24,6 +24,10 @@ const page = () => {
     }
   }, [data]);
 
+  useEffect(()=>{
+    
+  }, [])
+
   const onSubmit = async () => {
     console.log(data);
     setIsLoading(true);

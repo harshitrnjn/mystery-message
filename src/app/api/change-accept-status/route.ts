@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
 
-  const tokenId = getDataToken(request);
+  const tokenId = await getDataToken(request);
 
   console.log(tokenId)
 

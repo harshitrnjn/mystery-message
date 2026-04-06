@@ -38,12 +38,12 @@ export async function POST( request: Request ){
             user.messages.push(newMessage)
             await user.save();
 
-            const fetchUser = await User.findById(user._id)
+            // const fetchUser = await User.findById(user._id)
 
             return Response.json({
                 success: true,
-                message: "Message sent successfully",
-                user: fetchUser
+                message: "Message sent successfully"
+                // user: fetchUser
             }, {status: 200});
 
         }

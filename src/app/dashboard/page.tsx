@@ -1,15 +1,13 @@
 "use client";
-import { toast, useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { IMessage } from "@/model/message.model";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import MessageCard from "@/components/MessageCard";
-import { hostname } from "os";
 
 const page = () => {
   const router = useRouter();
@@ -30,7 +28,7 @@ const page = () => {
     try {
       const response = await axios.get("/api/profile");
 
-      console.log("PROFILE FETCHED SUCCESSFULLY: ", response);
+      console.log("PROFILE FETCHED SUCCESSFULLY: ", response.data);
 
       setUsername(response.data.user.username);
       setFullName(response.data.user.fullName);
@@ -45,13 +43,23 @@ const page = () => {
       });
     }
   };
+  const resetApi = async ()=>{
+        try {
+          const response = await axios.get("/api/resetVerification")
+          console.log("API REST OTP :: ", response.data)
+        } catch (error:any) {
+          console.log("Error in API :: Reset API")
+        }
+      }
+      
 
   useEffect(() => {
     profile();
     refreshButton();
-    
-    setProfileUrl({...profileURL, protocol: window.location.protocol })
-    setProfileUrl({...profileURL, hostname: window.location.host })
+    resetApi()
+
+    setProfileUrl({ ...profileURL, protocol: window.location.protocol })
+    setProfileUrl({ ...profileURL, hostname: window.location.host })
 
   }, []);
 
@@ -86,7 +94,7 @@ const page = () => {
   const refreshButton = async () => {
 
 
-  setProfileUrl({...profileURL, user: username}) 
+    setProfileUrl({ ...profileURL, user: username })
 
     try {
       const response = await axios.get("/api/get-messages");
@@ -143,8 +151,6 @@ const page = () => {
 
     update();
   }, [acceptStatus]);
-
-  const deleteMessage = async () => {};
 
 
   const profileUrl = `${profileURL.hostname}/u/${username}`
@@ -213,7 +219,7 @@ const page = () => {
           {messages.length > 0 ? (
             messages.map((message, index) => (
               <MessageCard
-                key={message._id}
+                key={message.id}
                 message={message}
                 onMessageDelete={handleDeleteMessage}
               />

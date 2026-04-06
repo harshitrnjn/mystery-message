@@ -1,6 +1,7 @@
 import dbConnect from "@/db/db";
 import { User } from "@/model/user.model";
 import { getDataToken } from "@/utils/getDataToken";
+import mongoose from "mongoose";
 import { NextRequest } from "next/server";
 
 
@@ -9,7 +10,7 @@ export async function GET(request: NextRequest){
 
     try {
 
-        const tokenId = getDataToken(request);
+        const tokenId = await getDataToken(request);
 
         if(!tokenId){
             return Response.json({
@@ -18,7 +19,9 @@ export async function GET(request: NextRequest){
             }, {status: 401})
         }
 
-        const user = await User.findById(tokenId)
+        const id = new mongoose.Types.ObjectId(tokenId)
+
+        const user = await User.findById(id)
         
         if(!user){
             return Response.json({

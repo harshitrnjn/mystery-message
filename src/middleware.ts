@@ -1,12 +1,9 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { getDataToken } from './utils/getDataToken'
  
 export function middleware(request: NextRequest) {
 
-    // const tokenId = getDataToken(request);
-
-    const token = request.cookies?.get("token")?.value || ""
+    const token = request.cookies?.get("token")?.value
 
     const url = request.nextUrl.pathname
 

@@ -12,7 +12,7 @@ export async function GET( request: NextRequest ){
 
     try {
 
-        const tokenId = getDataToken(request);
+        const tokenId = await getDataToken(request);
 
         if(!tokenId){
             return Response.json({

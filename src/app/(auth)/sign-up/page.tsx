@@ -83,6 +83,7 @@ export default function SignUpForm() {
       });
 
       router.replace(`/verify/${username}`);
+      // router.replace("/sign-in")
 
       setIsSubmitting(false);
     } catch (error: any) {
