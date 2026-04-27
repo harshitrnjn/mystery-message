@@ -42,25 +42,25 @@ export default function SignUpForm() {
     },
   });
 
-  useEffect(() => {
-    const checkUsernameUnique = async () => {
-      if (username) {
-        setIsCheckingUsername(true);
-        setUsernameMessage(""); // Reset message
-        try {
-          const response = await axios.get(
-            `/api/check-username-unique?username=${username}`
-          );
-          setUsernameMessage(response.data.message);
-        } catch (error: any) {
-          setUsernameMessage("Username is not valid");
-        } finally {
-          setIsCheckingUsername(false);
-        }
-      }
-    };
-    checkUsernameUnique();
-  }, [username]);
+  // useEffect(() => {
+  //   const checkUsernameUnique = async () => {
+  //     if (username) {
+  //       setIsCheckingUsername(true);
+  //       setUsernameMessage(""); // Reset message
+  //       try {
+  //         const response = await axios.get(
+  //           `/api/check-username-unique?username=${username}`
+  //         );
+  //         setUsernameMessage(response.data.message);
+  //       } catch (error: any) {
+  //         setUsernameMessage("Username is not valid");
+  //       } finally {
+  //         setIsCheckingUsername(false);
+  //       }
+  //     }
+  //   };
+  //   checkUsernameUnique();
+  // }, [username]);
 
   useEffect(() => {
     if (username.length === 0) {
@@ -75,7 +75,7 @@ export default function SignUpForm() {
     try {
       const response = await axios.post("/api/sign-up", data);
 
-      console.log(response);
+      console.log("Response on sign-up : ", response);
 
       toast({
         title: "Success",

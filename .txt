@@ -1,0 +1,4 @@
+TODO: 
+1. design api for sending otp in verify/username page, for entering otp
+2. integrate this into ver/username page for otp visible for login
+3. get back to username unique -- true

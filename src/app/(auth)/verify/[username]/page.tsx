@@ -11,6 +11,7 @@ const page = () => {
 
   const [code, setCode] = useState("");
   const [buttonState, setButtonState] = useState(false);
+  const [ verficationCode, setVerificationCode ] = useState("")
 
   const debounced = useDebounceCallback(setCode, 500);
 
@@ -18,7 +19,25 @@ const page = () => {
     if (code.length > 0) {
       setButtonState(true);
     }
-  });
+  }, [code]);
+
+  useEffect(()=>{
+    const fetchVerificationCode = async () => {
+      console.log("USERNAME FOR FETCHING OTP : ", username)
+
+      try {
+        const response = await axios.get(`/api/verifyEmail/${username}`)
+
+        setVerificationCode(response.data.data)
+
+      } catch (error:any) {
+        console.log("ERROR FETCHING THE OTP : ", error.message)
+      }
+    }
+
+    fetchVerificationCode()
+
+  }, [])
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
@@ -71,6 +90,7 @@ const page = () => {
                 debounced(e.target.value);
               }}
             />
+            { verficationCode && <h2 className=" text-sm text-red-500  " >Your OTP is  <span className="font-bold" >{verficationCode}</span> </h2> }
           </div>
           {buttonState ? (
             <button
