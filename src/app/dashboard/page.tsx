@@ -175,7 +175,7 @@ const page = () => {
       <nav className="p-4 md:p-6 shadow-md bg-gray-900 text-white">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
           <a href="#" className="text-xl font-bold mb-4 md:mb-0">
-            True Feedback
+            Mystry Message
           </a>
           <>
             <span className="mr-4 text-2xl">Welcome, {fullName}</span>
@@ -201,9 +201,9 @@ const page = () => {
             disabled
             className="input input-bordered w-[20vw] p-2 mr-2 border-2 bg-gray-200"
           />
-          <h1 className="text-center mt-2 text-sm text-gray-500/50">Please Note: Copy this link to recieve anonymous messages, open the link in new tab, it will allow the anonymous user to share the feedback.</h1>
           <Button onClick={copyToClipboard}>Copy</Button>
         </div>
+          <h1 className="text-center mt-2 text-sm text-gray-500/50">Please Note: Copy this link to recieve anonymous messages, open the link in new tab, it will allow the anonymous user to share the feedback.</h1>
       </div>
       <div className="mb-4 flex justify-center items-center ">
         <Switch defaultChecked onClick={changeStatus} />
