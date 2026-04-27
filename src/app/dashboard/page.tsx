@@ -194,12 +194,12 @@ const page = () => {
         <h2 className="text-lg font-semibold mb-2">
           Copy Your Unique Link To Recieve Anonymous Messages
         </h2>{" "}
-        <div className="flex items-center ">
+        <div className="flex items-center flex-col sm:flex-row gap-y-5" >
           <input
             type="text"
             value={profileUrl}
             disabled
-            className="input input-bordered w-[20vw] p-2 mr-2 border-2 bg-gray-200"
+            className="input input-bordered sm:w-[30vw] w-full  p-2 mr-2 border-2 bg-gray-200 "
           />
           <Button onClick={copyToClipboard}>Copy</Button>
         </div>
