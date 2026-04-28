@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { getDataToken } from './utils/getDataToken'
  
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
 
-    const token = request.cookies?.get("token")?.value
+    const token = await getDataToken(request)
 
     const url = request.nextUrl.pathname
 
@@ -20,7 +21,7 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/', request.url))
     }
 
-
+    return NextResponse.next()
 
 }
  
