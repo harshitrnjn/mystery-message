@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { getDataToken } from './utils/getDataToken'
  
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
 
-    const token = await getDataToken(request)
+    const token = request.cookies?.get("token")?.value
 
     const url = request.nextUrl.pathname
 
@@ -22,7 +21,6 @@ export async function middleware(request: NextRequest) {
     }
 
     return NextResponse.next()
-
 }
  
 export const config = {
