@@ -43,14 +43,17 @@
 // }
 
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:22-alpine'
+        }
+    }
 
     stages {
-        stage('Hello') {
+        stage('Test') {
             steps {
-                sh 'echo Hello'
-                sh 'whoami'
-                sh 'pwd'
+                sh 'node --version'
+                sh 'npm --version'
             }
         }
     }
